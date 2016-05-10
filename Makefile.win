@@ -4,7 +4,7 @@
 CPP  = g++.exe
 CC   = gcc.exe
 WINDRES = windres.exe
-RES  = Project2_private.res
+RES  = 
 OBJ  = main.o $(RES)
 LINKOBJ  = main.o $(RES)
 LIBS =  -L"lib" -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32 
@@ -28,6 +28,3 @@ $(BIN): $(OBJ)
 
 main.o: main.cpp
 	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
-
-Project2_private.res: Project2_private.rc 
-	$(WINDRES) -i Project2_private.rc --input-format=rc -o Project2_private.res -O coff 
