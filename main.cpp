@@ -90,6 +90,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      int vExist[]={1,1,1,1,1,1,1,1};
      int jExist=1,salida=0;
      int xBv=0,xAuto=0,nivel=1,llave=0;
+     int centro=430;//Ubicando imagenes al centro
      char tecla,mensaje[40];
      NODO vA=cab,bala=cab,balaV=cab;
      time_t tm1,tm2;//Variables de tiempo
@@ -108,7 +109,8 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
                 mover(&(cab),tecla);//Accediendo a valores de nodos
          }
          //circle(cab->x,cab->y,50);
-         putimage(cab->x,cab->y,imgArr[0],XOR_PUT);//JUGADOR
+         putimage(centro+cab->x,getmaxy()-100,imgArr[0],XOR_PUT);//JUGADOR
+         putimage(centro,cab->y,imgArr[1],XOR_PUT);//Linea
          tm2=clock();
          if(tm2-tm1>tm){//Controlando movimientos por tiempo
              
@@ -161,12 +163,17 @@ void cargarImagenes(void *img , void *imgArr[MAXIMG])//Carga todas las imagenes
    outtextxy(300,470,"LOADING. . .");
 
    cleardevice();
-   outtextxy(200,500,"Cargando");
    abrir("car.txt",&tamMalla,0,0,10,10);//Abriendo imagen
    img=malloc(imagesize(625,437,725,540));//Memoria de tamaño de imagen
    getimage(625,437,725,540,img);//Apuntando a imagen
    imgArr[0]=img;//Guardando apuntador a imagen en un arreglo de apuntadores
-   //putimage(0,0,imgArr[0],XOR_PUT);
+   
+   cleardevice();
+   abrir("linea.txt",&tamMalla,0,0,10,10);//Abriendo imagen
+   img=malloc(imagesize(625,437,725,540));//Memoria de tamaño de imagen
+   getimage(625,437,725,540,img);//Apuntando a imagen
+   imgArr[1]=img;//Guardando apuntador a imagen en un arreglo de apuntadores
+
 }
 
 
