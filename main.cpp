@@ -93,6 +93,10 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      char tecla,mensaje[40];
      NODO vA=cab,bala=cab,balaV=cab;
      time_t tm1,tm2;//Variables de tiempo
+     void *img;//Apuntador temporal a imagenes
+     //void *imgArr[MAXIMG];//Almacenando direccion de apuntador en arreglo
+
+     cargarImagenes(img,imgArr);
 
      ti=tm1=clock();
      setvisualpage(pag);
@@ -103,7 +107,8 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
             tecla=getch();//Capturando teclado
                 mover(&(cab),tecla);//Accediendo a valores de nodos
          }
-         circle(cab->x,cab->y,50);
+         //circle(cab->x,cab->y,50);
+         putimage(cab->x,cab->y,imgArr[0],XOR_PUT);//JUGADOR
          tm2=clock();
          if(tm2-tm1>tm){//Controlando movimientos por tiempo
              
@@ -157,7 +162,7 @@ void cargarImagenes(void *img , void *imgArr[MAXIMG])//Carga todas las imagenes
 
    cleardevice();
    outtextxy(200,500,"Cargando");
-   abrir("top.txt",&tamMalla,0,0,10,10);//Abriendo imagen
+   abrir("car.txt",&tamMalla,0,0,10,10);//Abriendo imagen
    img=malloc(imagesize(625,437,725,540));//Memoria de tamaño de imagen
    getimage(625,437,725,540,img);//Apuntando a imagen
    imgArr[0]=img;//Guardando apuntador a imagen en un arreglo de apuntadores
