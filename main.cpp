@@ -83,34 +83,35 @@ void principal(){
     //cargarImagenes(img,imgArr);//Cargando imagenes
 
 }
-
+//------------------------------------------------------------------------------
 void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Moviendo jugador
      int tamMalla,hJuga,hEsce=0,i,anim,alerta,pag=0,tiempo=0,ti;
-     int movA=0,movB=750,dir=0,jDir=0,balaExist=0,contacto;
-     int vExist[]={1,1,1,1,1,1,1,1};
      int jExist=1,salida=0;
-     int xBv=0,xAuto=0,nivel=1,llave=0;
      int centro=430;//Ubicando imagenes al centro
      char tecla,mensaje[40];
-     NODO vA=cab,bala=cab,balaV=cab;
      time_t tm1,tm2;//Variables de tiempo
      void *img;//Apuntador temporal a imagenes
-     //void *imgArr[MAXIMG];//Almacenando direccion de apuntador en arreglo
+     
+     while(cab->x < 530){//Fijando objetos en el centro
+         cab=cab->sig;
+     }
+     
+     
+     cargarImagenes(img,imgArr);//Cargando imagenes
 
-     cargarImagenes(img,imgArr);
-
-     ti=tm1=clock();
+     ti=tm1=clock();//Iniciando tiempo
      setvisualpage(pag);
      setactivepage(!pag);
+     
      while(tecla!=27 && salida==0){
-
-         if(kbhit()){
+         if(kbhit()){//Movimiento
             tecla=getch();//Capturando teclado
                 mover(&(cab),tecla);//Accediendo a valores de nodos
          }
-         //circle(cab->x,cab->y,50);
-         putimage(centro+cab->x,getmaxy()-100,imgArr[0],XOR_PUT);//JUGADOR
+         //Colocando imagenes---------------------------------------------------
          putimage(centro,cab->y,imgArr[1],XOR_PUT);//Linea
+         putimage(cab->x,getmaxy()-100,imgArr[0],XOR_PUT);//JUGADOR
+         putimage(cab->x,getmaxy()-200,imgArr[2],XOR_PUT);//Enemigo
          tm2=clock();
          if(tm2-tm1>tm){//Controlando movimientos por tiempo
              
@@ -173,6 +174,12 @@ void cargarImagenes(void *img , void *imgArr[MAXIMG])//Carga todas las imagenes
    img=malloc(imagesize(625,437,725,540));//Memoria de tamaño de imagen
    getimage(625,437,725,540,img);//Apuntando a imagen
    imgArr[1]=img;//Guardando apuntador a imagen en un arreglo de apuntadores
+   
+   cleardevice();
+   abrir("enemy.txt",&tamMalla,0,0,10,10);//Abriendo imagen
+   img=malloc(imagesize(625,437,725,540));//Memoria de tamaño de imagen
+   getimage(625,437,725,540,img);//Apuntando a imagen
+   imgArr[2]=img;//Guardando apuntador a imagen en un arreglo de apuntadores
 
 }
 
