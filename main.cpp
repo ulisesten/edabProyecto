@@ -46,7 +46,8 @@ int enlazaIn(NODO *ren1,NODO *ren2);//Enlaza columnas
 void principal();
 void abrir(char archivo[] ,int *matriz, int xi,int yi,int xf,int yf);//Abre imagenes
 void cargarImagenes(void *img , void *imgArr[MAXIMG]);//Carga todas las imagenes
-void enemigo(int x,int y,void *img);
+void enemigos(int x,int y,void *img);
+void controlEnemigos();
 void carretera(int x,int y,void *linea,void *acera);
 void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts);//Funcion principal de juego
 void mover(NODO *cab,char tecla);//Movimiento desde teclado
@@ -91,7 +92,6 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      }
      
      xEnemy=cab->x;
-     
      cargarImagenes(img,imgArr);//Cargando imagenes
 
      ti=tm1=clock();//Iniciando tiempo
@@ -107,13 +107,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
          
          carretera(230,0,imgArr[1],imgArr[3]);
          putimage(cab->x,getmaxy()-100,imgArr[0],XOR_PUT);//JUGADOR
-         
-         enemigo(xEnemy,getmaxy()-200,imgArr[2]);//Enemigo
-         enemigo(xEnemy-200,getmaxy(),imgArr[2]);//Enemigo
-         enemigo(xEnemy-200,getmaxy()-100,imgArr[2]);//Enemigo
-         enemigo(xEnemy-200,getmaxy()-200,imgArr[2]);//Enemigo
-         enemigo(xEnemy,getmaxy()-300,imgArr[2]);//Enemigo
-         enemigo(xEnemy-200,getmaxy()-300,imgArr[2]);//Enemigo
+         enemigos(xEnemy,getmaxy(),imgArr[2]);//Enemigos*
          
          tm2=clock();
          if(tm2-tm1>tm){//Controlando movimientos por tiempo
@@ -136,11 +130,28 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      cleardevice();
 }
 //------------------------------------------------------------------------------
-void enemigo(int x,int y,void *img){
+/*Esta funcion coloca los enemigos y los hace avanzar al principio
+ *del juega
+ *@param x es la posicion en x
+ *@param y es la posicion en y
+ *@param img es el apuntador a imagen
+*/
+void enemigos(int x,int y,void *img){
+     int dist=200,alt=100;
+     
+    putimage(x-dist,y-alt,img,XOR_PUT);//Enemigo
+    putimage(x-dist,y-alt*2,img,XOR_PUT);//Enemigo
+    putimage(x-dist,y-alt*3,img,XOR_PUT);//Enemigo
     putimage(x,y,img,XOR_PUT);//Enemigo
+    putimage(x,y-alt*2,img,XOR_PUT);//Enemigo
+    putimage(x,y-alt*3,img,XOR_PUT);//Enemigo
 }
 
-void carretera(int x,int y,void *linea,void *acera){//////////////////////////////////////////////////////////
+/*Coloca la carretera y la hace moverse
+ *@param linea es la linea blanca de la carretera
+ *@param acera es la imagen de las barras laterales de la carretera
+*/
+void carretera(int x,int y,void *linea,void *acera){////////////////////////////
      int dist=75,ancho=430;
      putimage(x+200,y+100,linea,XOR_PUT);//Linea
      putimage(x,y,acera,XOR_PUT);//Acera
@@ -161,11 +172,15 @@ void carretera(int x,int y,void *linea,void *acera){////////////////////////////
      putimage(x+ancho,y+dist*6,acera,XOR_PUT);//Acera
      putimage(x+ancho,y+dist*7,acera,XOR_PUT);//Acera
 }
-//------------------------------------------------------------------------------
+
+/*Captura el teclado para realizar el movimiento del jugador
+ *@param *cab apuntador a malla
+ *@param tecla es la tecla presionada por el usuario
+*/
 void mover(NODO *cab,char tecla){//Moviendo jugador
 
      if(tecla==72){//arriba
-         if((*cab)->y > 0)//
+         if((*cab)->y > 10)//
             (*cab)=(*cab)->arr;
      }else
      if(tecla==80){//Abajo
