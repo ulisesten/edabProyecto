@@ -47,6 +47,7 @@ void principal();
 void abrir(char archivo[] ,int *matriz, int xi,int yi,int xf,int yf);//Abre imagenes
 void cargarImagenes(void *img , void *imgArr[MAXIMG]);//Carga todas las imagenes
 void enemigo(int x,int y,void *img);
+void carretera(int x,int y,void *linea,void *acera);
 void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts);//Funcion principal de juego
 void mover(NODO *cab,char tecla);//Movimiento desde teclado
 //------------------------------------------------------------------------------
@@ -103,7 +104,8 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
                 mover(&(cab),tecla);//Accediendo a valores de nodos
          }
          //Colocando imagenes---------------------------------------------------
-         putimage(centro,cab->y,imgArr[1],XOR_PUT);//Linea
+         
+         carretera(230,0,imgArr[1],imgArr[3]);
          putimage(cab->x,getmaxy()-100,imgArr[0],XOR_PUT);//JUGADOR
          
          enemigo(xEnemy,getmaxy()-200,imgArr[2]);//Enemigo
@@ -136,6 +138,28 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
 //------------------------------------------------------------------------------
 void enemigo(int x,int y,void *img){
     putimage(x,y,img,XOR_PUT);//Enemigo
+}
+
+void carretera(int x,int y,void *linea,void *acera){//////////////////////////////////////////////////////////
+     int dist=75,ancho=430;
+     putimage(x+200,y+100,linea,XOR_PUT);//Linea
+     putimage(x,y,acera,XOR_PUT);//Acera
+     putimage(x,y+dist,acera,XOR_PUT);//Acera
+     putimage(x,y+dist*2,acera,XOR_PUT);//Acera
+     putimage(x,y+dist*3,acera,XOR_PUT);//Acera
+     putimage(x,y+dist*4,acera,XOR_PUT);//Acera
+     putimage(x,y+dist*5,acera,XOR_PUT);//Acera
+     putimage(x,y+dist*6,acera,XOR_PUT);//Acera
+     putimage(x,y+dist*7,acera,XOR_PUT);//Acera
+     
+     putimage(x+ancho,y,acera,XOR_PUT);//Acera
+     putimage(x+ancho,y+dist,acera,XOR_PUT);//Acera
+     putimage(x+ancho,y+dist*2,acera,XOR_PUT);//Acera
+     putimage(x+ancho,y+dist*3,acera,XOR_PUT);//Acera
+     putimage(x+ancho,y+dist*4,acera,XOR_PUT);//Acera
+     putimage(x+ancho,y+dist*5,acera,XOR_PUT);//Acera
+     putimage(x+ancho,y+dist*6,acera,XOR_PUT);//Acera
+     putimage(x+ancho,y+dist*7,acera,XOR_PUT);//Acera
 }
 //------------------------------------------------------------------------------
 void mover(NODO *cab,char tecla){//Moviendo jugador
@@ -185,6 +209,12 @@ void cargarImagenes(void *img , void *imgArr[MAXIMG])//Carga todas las imagenes
    img=malloc(imagesize(625,437,725,540));//Memoria de tamaño de imagen
    getimage(625,437,725,540,img);//Apuntando a imagen
    imgArr[2]=img;//Guardando apuntador a imagen en un arreglo de apuntadores
+
+   cleardevice();
+   abrir("acera.txt",&tamMalla,0,0,10,10);//Abriendo imagen
+   img=malloc(imagesize(625,437,725,540));//Memoria de tamaño de imagen
+   getimage(625,437,725,540,img);//Apuntando a imagen
+   imgArr[3]=img;//Guardando apuntador a imagen en un arreglo de apuntadores
 
 }
 
