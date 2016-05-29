@@ -80,7 +80,7 @@ void principal(){
 void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Moviendo jugador
      int tamMalla,hJuga,hEsce=0,i,anim,alerta,pag=0,tiempo=0,ti;
      int jExist=1,salida=0;
-     int centro=430;//Ubicando imagenes al centro
+     int centro=430,xEnemy;//Ubicando imagenes al centro
      char tecla,mensaje[40];
      time_t tm1,tm2;//Variables de tiempo
      void *img;//Apuntador temporal a imagenes
@@ -89,6 +89,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
          cab=cab->sig;
      }
      
+     xEnemy=cab->x;
      
      cargarImagenes(img,imgArr);//Cargando imagenes
 
@@ -104,12 +105,14 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
          //Colocando imagenes---------------------------------------------------
          putimage(centro,cab->y,imgArr[1],XOR_PUT);//Linea
          putimage(cab->x,getmaxy()-100,imgArr[0],XOR_PUT);//JUGADOR
-         enemigo(cab->x,getmaxy()-200,imgArr[2]);//Enemigo
-         enemigo(cab->x-200,getmaxy(),imgArr[2]);//Enemigo
-         enemigo(cab->x-200,getmaxy()-100,imgArr[2]);//Enemigo
-         enemigo(cab->x-200,getmaxy()-200,imgArr[2]);//Enemigo
-         enemigo(cab->x,getmaxy()-300,imgArr[2]);//Enemigo
-         enemigo(cab->x-200,getmaxy()-300,imgArr[2]);//Enemigo
+         
+         enemigo(xEnemy,getmaxy()-200,imgArr[2]);//Enemigo
+         enemigo(xEnemy-200,getmaxy(),imgArr[2]);//Enemigo
+         enemigo(xEnemy-200,getmaxy()-100,imgArr[2]);//Enemigo
+         enemigo(xEnemy-200,getmaxy()-200,imgArr[2]);//Enemigo
+         enemigo(xEnemy,getmaxy()-300,imgArr[2]);//Enemigo
+         enemigo(xEnemy-200,getmaxy()-300,imgArr[2]);//Enemigo
+         
          tm2=clock();
          if(tm2-tm1>tm){//Controlando movimientos por tiempo
              
