@@ -47,7 +47,8 @@ void principal();
 void abrir(char archivo[] ,int *matriz, int xi,int yi,int xf,int yf);//Abre imagenes
 void cargarImagenes(void *img , void *imgArr[MAXIMG]);//Carga todas las imagenes
 void enemigos(int x,int y,void *img);
-void controlEnemigos();
+void enemy();
+void jugador(int x,int y,void *img);
 void carretera(int x,int y,void *linea,void *acera);
 void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts);//Funcion principal de juego
 void mover(NODO *cab,char tecla);//Movimiento desde teclado
@@ -80,12 +81,13 @@ void principal(){
 }
 //------------------------------------------------------------------------------
 void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Moviendo jugador
-     int tamMalla,hJuga,hEsce=0,i,anim,alerta,pag=0,tiempo=0,ti;
-     int jExist=1,salida=0;
-     int centro=430,xEnemy;//Ubicando imagenes al centro
+     int pag=0,tiempo=500,ti;
+     int centro=430;
+     int xEnemy,yEnemy=600;//Ubicando imagenes al centro
      char tecla,mensaje[40];
      time_t tm1,tm2;//Variables de tiempo
      void *img;//Apuntador temporal a imagenes
+     int control=0;
      
      while(cab->x < 530){//Fijando objetos en el centro
          cab=cab->sig;
@@ -95,31 +97,34 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      cargarImagenes(img,imgArr);//Cargando imagenes
 
      ti=tm1=clock();//Iniciando tiempo
+     
      setvisualpage(pag);
      setactivepage(!pag);
      
-     while(tecla!=27 && salida==0){
+     while(tecla!=27){
          if(kbhit()){//Movimiento
             tecla=getch();//Capturando teclado
                 mover(&(cab),tecla);//Accediendo a valores de nodos
          }
-         //Colocando imagenes---------------------------------------------------
-         
-         carretera(230,0,imgArr[1],imgArr[3]);
-         putimage(cab->x,getmaxy()-100,imgArr[0],XOR_PUT);//JUGADOR
-         enemigos(xEnemy,getmaxy(),imgArr[2]);//Enemigos*
-         
+         //Animacion de inicio
+         if(control==0){
+             enemigos(xEnemy,yEnemy,imgArr[2]);//Enemigos
+             carretera(230,0,imgArr[1],imgArr[3]);
+             yEnemy-=1;
+             if(yEnemy<=0)
+                 control=1;
+         }
+         else if(control==1){
+             carretera(230,0,imgArr[1],imgArr[3]);
+             jugador(cab->x,getmaxy()-100,imgArr[0]);//JUGADOR
+         }
          tm2=clock();
          if(tm2-tm1>tm){//Controlando movimientos por tiempo
-             
-
-             //-----------------------------------------------------------------
+                 
              tm1=tm2;//Control de tiempo
          }
-         //---------------------------------------------------------------------
-         
          tiempo=(clock()-ti)/1000;
-
+         
          setvisualpage(!pag);
          setactivepage(pag);
          pag=!pag;
@@ -129,7 +134,11 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      setactivepage(0);
      cleardevice();
 }
-//------------------------------------------------------------------------------
+
+void jugador(int x,int y,void *img){
+    putimage(x,y,img,XOR_PUT);//JUGADOR
+}
+
 /*Esta funcion coloca los enemigos y los hace avanzar al principio
  *del juega
  *@param x es la posicion en x
@@ -138,13 +147,12 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
 */
 void enemigos(int x,int y,void *img){
      int dist=200,alt=100;
-     
-    putimage(x-dist,y-alt,img,XOR_PUT);//Enemigo
-    putimage(x-dist,y-alt*2,img,XOR_PUT);//Enemigo
-    putimage(x-dist,y-alt*3,img,XOR_PUT);//Enemigo
-    putimage(x,y,img,XOR_PUT);//Enemigo
-    putimage(x,y-alt*2,img,XOR_PUT);//Enemigo
-    putimage(x,y-alt*3,img,XOR_PUT);//Enemigo
+
+     putimage(x-dist,y-alt,img,XOR_PUT);//Enemigo
+     putimage(x-dist,y-alt*2,img,XOR_PUT);//Enemigo
+     putimage(x-dist,y-alt*3,img,XOR_PUT);//Enemigo
+     putimage(x,y-alt*2,img,XOR_PUT);//Enemigo
+     putimage(x,y-alt*3,img,XOR_PUT);//Enemigo    
 }
 
 /*Coloca la carretera y la hace moverse
