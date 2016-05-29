@@ -46,12 +46,13 @@ int enlazaIn(NODO *ren1,NODO *ren2);//Enlaza columnas
 void principal();
 void abrir(char archivo[] ,int *matriz, int xi,int yi,int xf,int yf);//Abre imagenes
 void cargarImagenes(void *img , void *imgArr[MAXIMG]);//Carga todas las imagenes
+void enemigo(int x,int y,void *img);
 void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts);//Funcion principal de juego
 void mover(NODO *cab,char tecla);//Movimiento desde teclado
 //------------------------------------------------------------------------------
 int main( )
 {
-	initwindow( 970 , 600 , "Elevator Action" );
+	initwindow( 970 , 600 , "Road Fighter" );
 
     principal();
 
@@ -73,15 +74,7 @@ void principal(){
     res=insertaExt(&ren,&cab,&ult,&bot,0,0,0);//Creando malla
     res=enlazaExt(&cab,&(*cab).aba);//Terminando malla
     cleardevice();
-    outtextxy((getmaxx()/2)-textwidth
-    ("Se supone que ya se creo la malla")/2,200,
-    "Se supone que ya se creo la malla");
     jugar(cab,imgArr,tamMalla,&res,10,&pts);
-    //jugar()
-    //getch();
-
-    //cargarImagenes(img,imgArr);//Cargando imagenes
-
 }
 //------------------------------------------------------------------------------
 void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Moviendo jugador
@@ -111,7 +104,12 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
          //Colocando imagenes---------------------------------------------------
          putimage(centro,cab->y,imgArr[1],XOR_PUT);//Linea
          putimage(cab->x,getmaxy()-100,imgArr[0],XOR_PUT);//JUGADOR
-         putimage(cab->x,getmaxy()-200,imgArr[2],XOR_PUT);//Enemigo
+         enemigo(cab->x,getmaxy()-200,imgArr[2]);//Enemigo
+         enemigo(cab->x-200,getmaxy(),imgArr[2]);//Enemigo
+         enemigo(cab->x-200,getmaxy()-100,imgArr[2]);//Enemigo
+         enemigo(cab->x-200,getmaxy()-200,imgArr[2]);//Enemigo
+         enemigo(cab->x,getmaxy()-300,imgArr[2]);//Enemigo
+         enemigo(cab->x-200,getmaxy()-300,imgArr[2]);//Enemigo
          tm2=clock();
          if(tm2-tm1>tm){//Controlando movimientos por tiempo
              
@@ -131,6 +129,10 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      setvisualpage(0);
      setactivepage(0);
      cleardevice();
+}
+//------------------------------------------------------------------------------
+void enemigo(int x,int y,void *img){
+    putimage(x,y,img,XOR_PUT);//Enemigo
 }
 //------------------------------------------------------------------------------
 void mover(NODO *cab,char tecla){//Moviendo jugador
