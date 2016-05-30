@@ -30,7 +30,7 @@ typedef struct
 //------------------------------------------------------------------------------
 #define MAXIMG 20
 #define M 50//Columnas
-#define N 50//Renglones
+#define N 80//Renglones
 #define AVAN 20
 #define AVY 10
 #define R 10
@@ -47,7 +47,7 @@ void principal();
 void abrir(char archivo[] ,int *matriz, int xi,int yi,int xf,int yf);//Abre imagenes
 void cargarImagenes(void *img , void *imgArr[MAXIMG]);//Carga todas las imagenes
 void enemigos(int x,int y,void *img);
-void enemy();
+void enemy(int x,int y,void *img);
 void jugador(int x,int y,void *img);
 void carretera(int x,int y,void *linea,void *acera);
 void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts);//Funcion principal de juego
@@ -91,6 +91,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      int control=0;
      int acelerador=2;
      
+     tm=100;
      while(cab->x < 530){//Fijando objetos en el centro
          cab=cab->sig;
      }
@@ -128,13 +129,18 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
                  scroll=0;
              
          }
-         
-         
+         /*Realizando funciones de enmigo
+         *@param 1 x pos con random
+         *@param 2 y pos con valores de malla
+         *@param 3 imagen*/
+         enemy(300,cab->y,imgArr[2]);
          
          tm2=clock();
          if(tm2-tm1>tm){//Controlando movimientos por tiempo
-                 
+             if(cab->y < 600)//
+             cab=cab->aba;
              tm1=tm2;//Control de tiempo
+             
          }
          tiempo=(clock()-ti)/1000;
          
@@ -146,6 +152,10 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      setvisualpage(0);
      setactivepage(0);
      cleardevice();
+}
+/*Movimiento del enemigo*/
+void enemy(int x,int y,void *img){
+    putimage(x,y-100,img,XOR_PUT);//Enemigo
 }
 
 void jugador(int x,int y,void *img){
@@ -209,14 +219,14 @@ void carretera(int x,int y,void *linea,void *acera){////////////////////////////
 */
 void mover(NODO *cab,char tecla){//Moviendo jugador
 
-     if(tecla==72){//arriba
+     /*if(tecla==72){//arriba
          if((*cab)->y > 10)//
             (*cab)=(*cab)->arr;
      }else
      if(tecla==80){//Abajo
          if((*cab)->y < 500)
              (*cab)=(*cab)->aba;
-     }else
+     }else*/
      if(tecla==75){//Izquierda
          if((*cab)->x > 0)//
              (*cab)=(*cab)->ant;
