@@ -87,7 +87,9 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      char tecla,mensaje[40];
      time_t tm1,tm2;//Variables de tiempo
      void *img;//Apuntador temporal a imagenes
+     int scroll=0;
      int control=0;
+     int acelerador=0;
      
      while(cab->x < 530){//Fijando objetos en el centro
          cab=cab->sig;
@@ -104,20 +106,31 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      while(tecla!=27){
          if(kbhit()){//Movimiento
             tecla=getch();//Capturando teclado
-                mover(&(cab),tecla);//Accediendo a valores de nodos
+            mover(&(cab),tecla);//Accediendo a valores de nodos
          }
          //Animacion de inicio
          if(control==0){
              enemigos(xEnemy,yEnemy,imgArr[2]);//Enemigos
-             carretera(230,0,imgArr[1],imgArr[3]);
+             carretera(230,scroll,imgArr[1],imgArr[3]);
              yEnemy-=1;
              if(yEnemy<=0)
                  control=1;
          }
          else if(control==1){
-             carretera(230,0,imgArr[1],imgArr[3]);
+             carretera(230,scroll,imgArr[1],imgArr[3]);
              jugador(cab->x,getmaxy()-100,imgArr[0]);//JUGADOR
+             if( kbhit() && tecla==72){
+                scroll+=acelerador;
+                if(acelerador<=10)
+                    acelerador++;
+             }
+             if(scroll>=75)
+                 scroll=0;
+             
          }
+         
+         
+         
          tm2=clock();
          if(tm2-tm1>tm){//Controlando movimientos por tiempo
                  
@@ -161,7 +174,15 @@ void enemigos(int x,int y,void *img){
 */
 void carretera(int x,int y,void *linea,void *acera){////////////////////////////
      int dist=75,ancho=430;
-     putimage(x+200,y+100,linea,XOR_PUT);//Linea
+     putimage(x+200,y-100,linea,COPY_PUT);//Linea
+     putimage(x+200,y,linea,COPY_PUT);//Linea
+     putimage(x+200,y+100,linea,COPY_PUT);//Linea
+     putimage(x+200,y+200,linea,COPY_PUT);//Linea
+     putimage(x+200,y+300,linea,COPY_PUT);//Linea
+     putimage(x+200,y+400,linea,COPY_PUT);//Linea
+     putimage(x+200,y+500,linea,COPY_PUT);//Linea
+     
+     putimage(x,y-dist,acera,XOR_PUT);//Acera
      putimage(x,y,acera,XOR_PUT);//Acera
      putimage(x,y+dist,acera,XOR_PUT);//Acera
      putimage(x,y+dist*2,acera,XOR_PUT);//Acera
@@ -171,6 +192,7 @@ void carretera(int x,int y,void *linea,void *acera){////////////////////////////
      putimage(x,y+dist*6,acera,XOR_PUT);//Acera
      putimage(x,y+dist*7,acera,XOR_PUT);//Acera
      
+     putimage(x+ancho,y-dist,acera,XOR_PUT);//Acera
      putimage(x+ancho,y,acera,XOR_PUT);//Acera
      putimage(x+ancho,y+dist,acera,XOR_PUT);//Acera
      putimage(x+ancho,y+dist*2,acera,XOR_PUT);//Acera
