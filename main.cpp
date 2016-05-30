@@ -89,7 +89,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      void *img;//Apuntador temporal a imagenes
      int scroll=0;
      int control=0;
-     int acelerador=0;
+     int acelerador=2;
      
      while(cab->x < 530){//Fijando objetos en el centro
          cab=cab->sig;
@@ -116,13 +116,13 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
              if(yEnemy<=0)
                  control=1;
          }
-         else if(control==1){
+         else if(control==1){//Scroll de carretera
              carretera(230,scroll,imgArr[1],imgArr[3]);
              jugador(cab->x,getmaxy()-100,imgArr[0]);//JUGADOR
-             if( kbhit() && tecla==72){
+             if(control==1){
                 scroll+=acelerador;
-                if(acelerador<=10)
-                    acelerador++;
+                //if(acelerador<=10)
+                  //  acelerador++;
              }
              if(scroll>=75)
                  scroll=0;
