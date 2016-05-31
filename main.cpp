@@ -112,7 +112,6 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
          if(kbhit()){//Movimiento
             tecla=getch();//Capturando teclado
             mover(&(cab),tecla);//Accediendo a valores de nodos
-            edo=1;
          }
          //Animacion de inicio
          if(control==0){
@@ -157,7 +156,8 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
              if(yVil->y > getmaxy()-100  && cab->x>250 && cab->x < 350){
                  edo=0;
              }
-             
+             if(yVil->y<10)
+                 edo=1;
              
              tm1=tm2;//Control de tiempo
              
