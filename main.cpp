@@ -90,6 +90,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      int scroll=0;
      int control=0;
      int acelerador=2;
+     char str[40];
      
      tm=100;
      while(cab->x < 530){//Fijando objetos en el centro
@@ -122,8 +123,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
              jugador(cab->x,getmaxy()-100,imgArr[0]);//JUGADOR
              if(control==1){
                 scroll+=acelerador;
-                //if(acelerador<=10)
-                  //  acelerador++;
+                
              }
              if(scroll>=75)
                  scroll=0;
@@ -134,15 +134,20 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
          *@param 2 y pos con valores de malla
          *@param 3 imagen*/
          enemy(300,cab->y,imgArr[2]);
+             
+         tiempo=(clock()-ti)/1000;
+         sprintf(mensaje,"Time: %d ",tiempo);
+         setcolor(WHITE);
+         outtextxy(850,50,mensaje);
          
          tm2=clock();
-         if(tm2-tm1>tm){//Controlando movimientos por tiempo
-             if(cab->y < 600)//
+         if(tm2-tm1>tm && tiempo >3){//Controlando movimientos por tiempo
+             if(cab->y < 700)//
              cab=cab->aba;
              tm1=tm2;//Control de tiempo
              
          }
-         tiempo=(clock()-ti)/1000;
+         
          
          setvisualpage(!pag);
          setactivepage(pag);
