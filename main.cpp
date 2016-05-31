@@ -81,6 +81,7 @@ void principal(){
 }
 //------------------------------------------------------------------------------
 void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Moviendo jugador
+     NODO aux;
      int pag=0,tiempo=500,ti;
      int centro=430;
      int xEnemy,yEnemy=600;//Ubicando imagenes al centro
@@ -99,6 +100,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      }
      
      xEnemy=cab->x;
+     aux=cab;//Regresa las coordenadas al principio
      cargarImagenes(img,imgArr);//Cargando imagenes
 
      ti=tm1=clock();//Iniciando tiempo
@@ -145,7 +147,9 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
          tm2=clock();
          if(tm2-tm1>tm && tiempo >3){//Controlando movimientos por tiempo
              if(cab->y < 700)//
-             cab=cab->aba;
+                 cab=cab->aba;
+             if(cab->y > 680)// Una vez recorrida la pantalla regresa al principio
+                 cab = aux;
              tm1=tm2;//Control de tiempo
              
          }
