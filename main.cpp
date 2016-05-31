@@ -81,7 +81,7 @@ void principal(){
 }
 //------------------------------------------------------------------------------
 void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Moviendo jugador
-     NODO aux;
+     NODO aux,yVil;
      int pag=0,tiempo=500,ti;
      int centro=430;
      int xEnemy,yEnemy=600;//Ubicando imagenes al centro
@@ -91,7 +91,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      int scroll=0;
      int control=0;
      int acelerador=2;
-     int edo=0;
+     int edo=1;
      char str[40];
      
      tm=100;
@@ -100,7 +100,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      }
      
      xEnemy=cab->x;
-     aux=cab;//Regresa las coordenadas al principio
+     aux=yVil=cab;//Regresa las coordenadas al principio
      cargarImagenes(img,imgArr);//Cargando imagenes
 
      ti=tm1=clock();//Iniciando tiempo
@@ -137,7 +137,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
          *@param 1 x pos con random
          *@param 2 y pos con valores de malla
          *@param 3 imagen*/
-         enemy(300,cab->y,imgArr[2]);
+         enemy(300,yVil->y,imgArr[2]);
              
          tiempo=(clock()-ti)/1000;
          sprintf(mensaje,"Time: %d ",tiempo);
@@ -146,10 +146,10 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
          
          tm2=clock();
          if(tm2-tm1>tm && tiempo >3){//Controlando movimientos por tiempo
-             if(cab->y < 700)//
-                 cab=cab->aba;
-             if(cab->y > 680)// Una vez recorrida la pantalla regresa al principio
-                 cab = aux;
+             if(yVil->y < 700)//
+                 yVil=yVil->aba;
+             if(yVil->y > 680)// Una vez recorrida la pantalla regresa al principio
+                 yVil = aux;
              tm1=tm2;//Control de tiempo
              
          }
@@ -233,20 +233,12 @@ void carretera(int x,int y,void *linea,void *acera){////////////////////////////
 */
 void mover(NODO *cab,char tecla){//Moviendo jugador
 
-     /*if(tecla==72){//arriba
-         if((*cab)->y > 10)//
-            (*cab)=(*cab)->arr;
-     }else
-     if(tecla==80){//Abajo
-         if((*cab)->y < 500)
-             (*cab)=(*cab)->aba;
-     }else*/
      if(tecla==75){//Izquierda
-         if((*cab)->x > 0)//
+         if((*cab)->x > 260)//
              (*cab)=(*cab)->ant;
      }else
      if(tecla==77){//Derecha
-         if((*cab)->x<900)
+         if((*cab)->x<620)
          (*cab)=(*cab)->sig;
      }
 }
