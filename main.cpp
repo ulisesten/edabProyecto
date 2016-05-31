@@ -48,7 +48,7 @@ void abrir(char archivo[] ,int *matriz, int xi,int yi,int xf,int yf);//Abre imag
 void cargarImagenes(void *img , void *imgArr[MAXIMG]);//Carga todas las imagenes
 void enemigos(int x,int y,void *img);
 void enemy(int x,int y,void *img);
-void jugador(int x,int y,void *img);
+void jugador(int x,int y,int edo,void *img,void *img2);
 void carretera(int x,int y,void *linea,void *acera);
 void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts);//Funcion principal de juego
 void mover(NODO *cab,char tecla);//Movimiento desde teclado
@@ -90,6 +90,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
      int scroll=0;
      int control=0;
      int acelerador=2;
+     int edo=0;
      char str[40];
      
      tm=100;
@@ -120,7 +121,8 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
          }
          else if(control==1){//Scroll de carretera
              carretera(230,scroll,imgArr[1],imgArr[3]);
-             jugador(cab->x,getmaxy()-100,imgArr[0]);//JUGADOR
+             /*Jugador, controlado por declas izquierda y derecha*/
+             jugador(cab->x,getmaxy()-100,edo,imgArr[0],imgArr[4]);//JUGADOR
              if(control==1){
                 scroll+=acelerador;
                 
@@ -163,8 +165,11 @@ void enemy(int x,int y,void *img){
     putimage(x,y-100,img,XOR_PUT);//Enemigo
 }
 
-void jugador(int x,int y,void *img){
-    putimage(x,y,img,XOR_PUT);//JUGADOR
+void jugador(int x,int y,int edo,void *img,void *img2){
+    if(edo==1)
+        putimage(x,y,img,XOR_PUT);//JUGADOR
+    else
+        putimage(x,y,img2,XOR_PUT);//JUGADOR
 }
 
 /*Esta funcion coloca los enemigos y los hace avanzar al principio
@@ -275,6 +280,12 @@ void cargarImagenes(void *img , void *imgArr[MAXIMG])//Carga todas las imagenes
    img=malloc(imagesize(625,437,725,540));//Memoria de tamaño de imagen
    getimage(625,437,725,540,img);//Apuntando a imagen
    imgArr[3]=img;//Guardando apuntador a imagen en un arreglo de apuntadores
+   
+   cleardevice();
+   abrir("carCrash.txt",&tamMalla,0,0,10,10);//Abriendo imagen
+   img=malloc(imagesize(625,437,725,540));//Memoria de tamaño de imagen
+   getimage(625,437,725,540,img);//Apuntando a imagen
+   imgArr[4]=img;//Guardando apuntador a imagen en un arreglo de apuntadores
 
 }
 
