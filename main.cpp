@@ -112,6 +112,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
          if(kbhit()){//Movimiento
             tecla=getch();//Capturando teclado
             mover(&(cab),tecla);//Accediendo a valores de nodos
+            edo=1;
          }
          //Animacion de inicio
          if(control==0){
@@ -125,7 +126,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
              carretera(230,scroll,imgArr[1],imgArr[3]);
              /*Jugador, controlado por declas izquierda y derecha*/
              jugador(cab->x,getmaxy()-100,edo,imgArr[0],imgArr[4]);//JUGADOR
-             if(control==1){
+             if(control==1 && edo==1){
                 scroll+=acelerador;
                 
              }
@@ -146,10 +147,18 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
          
          tm2=clock();
          if(tm2-tm1>tm && tiempo >3){//Controlando movimientos por tiempo
-             if(yVil->y < 700)//
+             if(yVil->y < 700 && edo==1)//
                  yVil=yVil->aba;
+             else//En caso de choque deja a jugador atras
+                 yVil=yVil->arr;
              if(yVil->y > 680)// Una vez recorrida la pantalla regresa al principio
                  yVil = aux;
+                 
+             if(yVil->y > getmaxy()-100  && cab->x>250 && cab->x < 350){
+                 edo=0;
+             }
+             
+             
              tm1=tm2;//Control de tiempo
              
          }
@@ -232,9 +241,8 @@ void carretera(int x,int y,void *linea,void *acera){////////////////////////////
  *@param tecla es la tecla presionada por el usuario
 */
 void mover(NODO *cab,char tecla){//Moviendo jugador
-
      if(tecla==75){//Izquierda
-         if((*cab)->x > 260)//
+         if((*cab)->x > 260)//Limites de carretera
              (*cab)=(*cab)->ant;
      }else
      if(tecla==77){//Derecha
