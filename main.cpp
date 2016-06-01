@@ -153,7 +153,7 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite,int *pts){//Movi
              if(yVil->y > 680)// Una vez recorrida la pantalla regresa al principio
                  yVil = aux;
                  
-             if(yVil->y > getmaxy()-100  && cab->x>250 && cab->x < 350){
+             if(yVil->y > getmaxy()-75  && cab->x>250 && cab->x < 350){//En caso de choque
                  edo=0;
              }
              if(yVil->y<10)
