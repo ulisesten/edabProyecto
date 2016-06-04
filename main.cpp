@@ -166,13 +166,13 @@ void jugar(NODO cab,void *imgArr[],int tm,int *logro,int limite){//Moviendo juga
              if(yVil->y > 680){// Una vez recorrida la pantalla regresa al principio
                  yVil = aux;//Reseteando coordenadas
                  xEnemy=rand()% 280 + 360;//Añadiendo coordenada x de enemigo
+                 pts+=50;
              }
              if(yVil->y > getmaxy()-75  && cab->x > xEnemy-50 && cab->x < xEnemy+50){//En caso de choque
                  edo=0;//Auto destruido
                  vida--;//Disminuyendo vidas
                  if(vida==-1){
                     control=2;
-                    
                  }
              }
              if(yVil->y<10)
